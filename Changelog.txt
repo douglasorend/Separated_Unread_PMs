@@ -1,3 +1,10 @@
+v1.9 - October 15th, 2018
+o No functionality change.
+o Updated documentation to point to new website.
+
+v1.8 - February 21th, 2018
+o Added Spanish Latin translation by [url=http://www.simplemachines.org/community/index.php?action=profile;u=322597]Rock Lee[/url].
+
 v1.7 - January 11th, 2018
 o Added support for SMF 2.0.15.
 
