@@ -29,14 +29,8 @@
 		<add><![CDATA[$context['from_or_to'] = !$context['sup_folder'] ? 'from' : 'to';]]></add>
 	</operation>
 	<operation> <!-- line 454 -->
-		<search position="replace"><![CDATA[$labelQuery = $context['folder'] != 'sent' ? ']]></search>
-		<add><![CDATA[$labelQuery = !$context['sup_folder'] ? ']]></add>
-	</operation>
-	<operation> <!-- line 486 -->
-		<search position="replace"><![CDATA[if ($context['folder'] == 'sent')
-		isAllowedTo('pm_send');]]></search>
-		<add><![CDATA[if ($context['sup_folder'])
-		isAllowedTo('pm_send');]]></add>
+		<search position="replace"><![CDATA[elseif ($context['folder'] != 'sent')]]></search>
+		<add><![CDATA[elseif (!$context['sup_folder'])]]></add>
 	</operation>
 	<operation> <!-- line 490 -->
 		<search position="replace"><![CDATA[$pmbox = $context['folder'] != 'sent' ? $txt['inbox'] : $txt['sent_items'];]]></search>

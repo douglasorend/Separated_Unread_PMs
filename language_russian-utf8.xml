@@ -2,15 +2,16 @@
 <!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:SeperateUnreadPMs</id>
-<name>Seperate Unread PMs</name>
+<name>Separate Unread PMs</name>
 <version>1.1</version>
 
-<file name="$languagedir/PersonalMessage.english.php">
+<file name="$languagedir/PersonalMessage.russian-utf8.php" error="skip">
 	<operation>
 		<search position="end" />
 		<add><![CDATA[
-$txt['unread_items'] = 'Outbox';
+$txt['unread_items'] = 'Исходящие';
 ]]></add>
 	</operation>
 </file>
+
 </modification>
