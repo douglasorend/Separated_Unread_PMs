@@ -1,5 +1,5 @@
 [hr]
-[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.8[/b][/size][/color]
+[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.9[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4141]Link to Mod[/url]
 [/center]
 [hr]
@@ -24,10 +24,10 @@ This mod was tested on SMF 2.0.13 and SMF 2.1 Beta 3, but should work on SMF 2.0
 o Spanish Latin translation by [url=http://www.simplemachines.org/community/index.php?action=profile;u=322597]Rock Lee[/url]
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
-The changelog has been removed and can be seen at [url=http://www.xptsp.com/board/index.php?topic=1593.msg2230#msg2230]XPtsp.com[/url].
+The changelog can be viewed at [url=http://www.xptsp.com/board/free-modifications/separated-unread-pms/?tab=1]XPtsp.com[/url].
 
 [color=blue][b][size=12pt][u]License[/u][/size][/b][/color]
-Copyright (c) 2017, Douglas Orend
+Copyright (c) 2017 - 2018, Douglas Orend
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
