@@ -1,3 +1,6 @@
+v1.6 - August 4th, 2017
+o Made changes for compatibilty with [url=http://custom.simplemachines.org/mods/index.php?mod=3888]Search Sent PMs[/url].
+
 v1.5 - July 7th, 2017
 o Added support for SMF 2.1 Beta 3.
 o Removed support for SMF 2.1 Beta 2.

@@ -3,14 +3,15 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:SeperateUnreadPMs</id>
 <name>Seperate Unread PMs</name>
-<version>1.5</version>
+<version>1.6</version>
 
 <file name="$sourcedir/PersonalMessage.php">
 	<!-- MessageMain function -->
 	<operation> <!-- line 246 -->
-		<search position="replace"><![CDATA[$context['folder'] = !isset($_REQUEST['f']) || $_REQUEST['f'] != 'sent' ? 'inbox' : 'sent';]]></search>
-		<add><![CDATA[$context['sup_folder'] = isset($_REQUEST['f']) && ($_REQUEST['f'] == 'sent' || $_REQUEST['f'] == 'unread');
-	$context['folder'] = !isset($_REQUEST['f']) ? 'inbox' : ($context['sup_folder'] ? $_REQUEST['f'] : 'inbox');]]></add>
+		<search position="before"><![CDATA[$context['folder'] = !isset($_REQUEST['f']) || $_REQUEST['f'] != 'sent' ? 'inbox' : 'sent';]]></search>
+		<add><![CDATA[
+	$context['sup_folder'] = isset($_REQUEST['f']) && ($_REQUEST['f'] == 'sent' || $_REQUEST['f'] == 'unread');
+		$context['folder'] = $context['folder'] == 'inbox' && $context['sup_folder'] ? $_REQUEST['f'] : $context['folder'];]]></add>
 	</operation>
 
 	<!-- messageIndexBar function -->
@@ -39,12 +40,9 @@
 		isAllowedTo('pm_send');]]></add>
 	</operation>
 	<operation>	<!-- line 490 -->
-		<search position="before"><![CDATA[$pmbox = $context['folder'] != 'sent' ? ]]></search>
-		<add><![CDATA[$context['folder'] == 'unread' ? $txt['unread_items'] : ]]></add>
-	</operation>
-	<operation>	<!-- line 490 -->
-		<search position="after"><![CDATA[$pmbox = $context['folder'] != 'sent' ? ]]></search>
-		<add><![CDATA[$context['folder_pmbox'] = ]]></add>
+		<search position="before"><![CDATA[$pmbox = $context['folder'] != 'sent' ? $txt['inbox'] : $txt['sent_items'];]]></search>
+		<add><![CDATA[
+	$pmbox = $context['folder'] == 'unread' ? $txt['unread_items'] : $pmbox;]]></add>
 	</operation>
 	<operation> <!-- line 508 -->
 		<search position="replace"><![CDATA[// Figure out how many messages there are.
