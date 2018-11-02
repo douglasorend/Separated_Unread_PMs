@@ -5,17 +5,30 @@
 	<id>Dougiefresh:SeperateUnreadPMs</id>
 	<name>Separate Unread PMs</name>
 	<type>modification</type>
-	<version>1.6</version>
+	<version>1.7</version>
 
-	<install for="2.0 - 2.0.99">
+	<install for="2.0 - 2.0.14">
 		<readme parsebbc="true">readme.txt</readme>
 		<modification>install_20x.xml</modification>
 		<modification>language_english.xml</modification>
 		<modification>language_russian.xml</modification>
 		<modification>language_russian-utf8.xml</modification>
 	</install>
-	<uninstall for="2.0 - 2.0.99">
+	<uninstall for="2.0 - 2.0.14">
 		<modification reverse="true">install_20x.xml</modification>
+		<modification reverse="true">language_english.xml</modification>
+		<modification reverse="true">language_russian.xml</modification>
+		<modification reverse="true">language_russian-utf8.xml</modification>
+	</uninstall>
+	<install for="2.0.15 - 2.0.99">
+		<readme parsebbc="true">readme.txt</readme>
+		<modification>install_2015.xml</modification>
+		<modification>language_english.xml</modification>
+		<modification>language_russian.xml</modification>
+		<modification>language_russian-utf8.xml</modification>
+	</install>
+	<uninstall for="2.0.15 - 2.0.99">
+		<modification reverse="true">install_2015.xml</modification>
 		<modification reverse="true">language_english.xml</modification>
 		<modification reverse="true">language_russian.xml</modification>
 		<modification reverse="true">language_russian-utf8.xml</modification>
