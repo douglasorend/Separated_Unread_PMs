@@ -1,3 +1,7 @@
+v1.2 - March 13th, 2017
+o Fixed documentation issue within the [b]readme.txt[/b] file.
+o No other changes made to the mod.
+
 v1.1 - March 11th, 2017
 o Added support for SMF 2.1 Beta 2.
 o Fixed undefined error when using context variable without folder.

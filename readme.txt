@@ -1,11 +1,11 @@
 [hr]
-[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.1[/b][/size][/color]
+[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.2[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4141]Link to Mod[/url]
 [/center]
 [hr]
 
 [color=blue][b][size=12pt][u]Introduction[/u][/size][/b][/color]
-This mod separates all unread PMs and places them in the new [b]Outbox[/b] folder.
+This mod separates all unread sent PMs from the "already read" sent PMs and places them in the new [b]Outbox[/b] folder.
 
 [color=blue][b][size=12pt][u]Admin Settings[/u][/size][/b][/color]
 There are no settings available for this mod.  To remove it, you must uninstall it.
