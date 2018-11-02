@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.simplemachines.org/xml/modification">
+<modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
+<id>Dougiefresh:SeperateUnreadPMs</id>
+<name>Seperate Unread PMs</name>
+<version>1.0</version>
+
+<file name="$sourcedir/PersonalMessage.php">
+	<!-- MessageMain function -->
+	<operation> <!-- line 246 -->
+		<search position="replace"><![CDATA[$context['folder'] = !isset($_REQUEST['f']) || $_REQUEST['f'] != 'sent' ? 'inbox' : 'sent';]]></search>
+		<add><![CDATA[$context['folder'] = !isset($_REQUEST['f']) ? 'inbox' : ($_REQUEST['f'] == 'sent' || $_REQUEST['f'] == 'unread' ? $_REQUEST['f'] : 'inbox');
+	$context['sup_flag'] = true;]]></add>
+	</operation>
+
+	<!-- messageIndexBar function -->
+	<operation> <!-- line 309 -->
+		<search position="before"><![CDATA['custom_url' => $scripturl . '?action=pm;f=sent',]]></search>
+		<add><![CDATA[
+				),
+				'unread' => array(
+					'label' => $txt['unread_items'],
+					'custom_url' => $scripturl . '?action=pm;f=unread',]]></add>
+	</operation>
+
+	<!-- MessageFolder function -->
+	<operation> <!-- line 451 -->
+		<search position="replace"><![CDATA[$context['from_or_to'] = $context['folder'] != 'sent' ? 'from' : 'to';]]></search>
+		<add><![CDATA[$context['from_or_to'] = ($context['sup_folder'] = $context['folder'] == 'sent' || $context['folder'] == 'unread') ? 'from' : 'to';]]></add>
+	</operation>
+	<operation> <!-- line 454 -->
+		<search position="replace"><![CDATA[$labelQuery = $context['folder'] != 'sent' ? ']]></search>
+		<add><![CDATA[$labelQuery = !$context['sup_folder'] ? ']]></add>
+	</operation>
+	<operation> <!-- line 486 -->
+		<search position="replace"><![CDATA[if ($context['folder'] == 'sent')
+		isAllowedTo('pm_send');]]></search>
+		<add><![CDATA[if ($context['sup_folder'])
+		isAllowedTo('pm_send');]]></add>
+	</operation>
+	<operation> <!-- line 490 -->
+		<search position="replace"><![CDATA[$pmbox = $context['folder'] != 'sent' ? $txt['inbox'] : $txt['sent_items'];]]></search>
+		<add><![CDATA[$pmbox = $context['folder'] == 'sent' ? $txt['sent_items'] : $context['folder'] == 'unread' ? $txt['unread_items'] : $txt['inbox'];]]></add>
+	</operation>
+	<operation> <!-- line 508 -->
+		<search position="replace"><![CDATA[// Figure out how many messages there are.
+	if ($context['folder'] == 'sent')]]></search>
+		<add><![CDATA[// Figure out how many messages there are.
+	if ($context['sup_folder'])]]></add>
+	</operation>
+	<operation> <!-- line 513 -->
+		<search position="replace"><![CDATA[WHERE pm.id_member_from = {int:current_member}
+				AND pm.deleted_by_sender = {int:not_deleted}',]]></search>
+		<add><![CDATA[LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)
+			WHERE pm.id_member_from = {int:current_member}
+				AND pmr.is_read ' . ($context['folder'] == 'unread' ? '=' : '>') . ' 0
+				AND pm.deleted_by_sender = {int:not_deleted}',]]></add>
+	</operation>
+	<operation> <!-- line 550 -->
+		<search position="replace"><![CDATA[if (!isAccessiblePM($pmID, $context['folder'] == 'sent' ? 'outbox' : 'inbox'))]]></search>
+		<add><![CDATA[if (!isAccessiblePM($pmID, $context['sup_folder'] ? 'outbox' : 'inbox'))]]></add>
+	</operation>
+	<operation> <!-- line 559 -->
+		<search position="replace"><![CDATA[elseif (!isset($_GET['kstart']))
+		{
+			if ($context['folder'] == 'sent')]]></search>
+		<add><![CDATA[elseif (!isset($_GET['kstart']))
+		{
+			if ($context['sup_folder'])]]></add>
+	</operation>
+	<operation> <!-- line 567 -->
+		<search position="after"><![CDATA[AND id_pm ' . ($descending ? '>' : '<') . ' {int:id_pm}',]]></search>
+		<add><![CDATA[AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0
+						]]></add>
+	</operation>
+	<operation> <!-- line 601 -->
+		<search position="replace"><![CDATA[if (!isAccessiblePM($pmsg, $context['folder'] == 'sent' ? 'outbox' : 'inbox'))]]></search>
+		<add><![CDATA[if (!isAccessiblePM($pmsg, $context['sup_folder'] ? 'outbox' : 'inbox'))]]></add>
+	</operation>
+	<operation> <!-- line 632 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
+	</operation>
+	<operation> <!-- line 639 -->
+		<search position="replace"><![CDATA[WHERE ' . ($context['folder'] == 'sent' ? 'pm.id_member_from = {int:current_member}]]></search>
+		<add><![CDATA[WHERE ' . ($context['sup_folder'] ? 'pm.id_member_from = {int:current_member}
+					AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0]]></add>
+	</operation>
+	<operation> <!-- line 650 -->
+		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
+		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
+	</operation>
+	<operation> <!-- line 663 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
+	</operation>
+	<operation> <!-- line 671 -->
+		<search position="replace"><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['folder'] != 'sent' ? 'id_pm' : '{raw:sort}')]]></search>
+		<add><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['sup_folder'] ? 'id_pm' : '{raw:sort}')]]></add>
+	</operation>
+	<operation> <!-- line 678 -->
+		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
+		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
+	</operation>
+	<operation> <!-- line 686 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
+					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
+	</operation>
+	<operation> <!-- line 693 -->
+		<search position="replace"><![CDATA[WHERE ' . ($context['folder'] == 'sent' ? 'pm.id_member_from = {int:current_member}]]></search>
+		<add><![CDATA[WHERE ' . ($context['sup_folder'] ? 'pm.id_member_from = {int:current_member}
+					AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0]]></add>
+	</operation>
+	<operation> <!-- line 698 -->
+		<search position="replace"><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['folder'] != 'sent' ? 'id_pm' : '{raw:sort}')]]></search>
+		<add><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['sup_folder'] ? 'id_pm' : '{raw:sort}')]]></add>
+	</operation>
+	<operation> <!-- line 704 -->
+		<search position="replace"><![CDATA['pm_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
+		<add><![CDATA['pm_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
+	</operation>
+	<operation> <!-- line 716 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? '' . ($context['sort_by'] == 'name' ? '
+				LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
+				LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
+	</operation>
+	<operation> <!-- line 723 -->
+		<search position="replace"><![CDATA[WHERE ' . ($context['folder'] == 'sent' ? 'pm.id_member_from = {raw:current_member}]]></search>
+		<add><![CDATA[WHERE ' . ($context['sup_folder'] ? 'pm.id_member_from = {raw:current_member}
+				AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . '0]]></add>
+	</operation>
+	<operation> <!-- line 727 -->
+		<search position="replace"><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['folder'] != 'sent' ? 'pmr.id_pm' : '{raw:sort}') . ($descending ? ' DESC' : ' ASC') . (empty($pmsg) ? ']]></search>
+		<add><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && !$context['sup_folder'] ? 'pmr.id_pm' : '{raw:sort}') . ($descending ? ' DESC' : ' ASC') . (empty($pmsg) ? ']]></add>
+	</operation>
+	<operation> <!-- line 733 -->
+		<search position="replace"><![CDATA['pm_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
+		<add><![CDATA['pm_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
+	</operation>
+	<operation> <!-- line 741 -->
+		<search position="replace"><![CDATA[$posters = $context['folder'] == 'sent' ? array($user_info['id']) : array();]]></search>
+		<add><![CDATA[$posters = $context['sup_folder'] ? array($user_info['id']) : array();]]></add>
+	</operation>
+	<operation> <!-- line 802 -->
+		<search position="replace"><![CDATA[if ($context['folder'] == 'sent' && $row['id_member_from'] == $user_info['id'] && $row['deleted_by_sender'] == 1)]]></search>
+		<add><![CDATA[if ($context['sup_folder'] && $row['id_member_from'] == $user_info['id'] && $row['deleted_by_sender'] == 1)]]></add>
+	</operation>
+	<operation> <!-- line 837 -->
+		<search position="replace"><![CDATA[if ($context['folder'] == 'sent' || empty($row['bcc']))]]></search>
+		<add><![CDATA[if ($context['sup_folder'] || empty($row['bcc']))]]></add>
+	</operation>
+	<operation> <!-- line 840 -->
+		<search position="replace"><![CDATA[if ($row['id_member_to'] == $user_info['id'] && $context['folder'] != 'sent')]]></search>
+		<add><![CDATA[if ($row['id_member_to'] == $user_info['id'] && $context['sup_folder'])]]></add>
+	</operation>
+	<operation> <!-- line 894 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? ']]></add>
+	</operation>
+	<operation> <!-- line 897 -->
+		<search position="replace"><![CDATA[WHERE pm.id_pm IN ({array_int:display_pms})' . ($context['folder'] == 'sent' ? ']]></search>
+		<add><![CDATA[WHERE pm.id_pm IN ({array_int:display_pms})' . ($context['sup_folder'] ? '
+				AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0]]></add>
+	</operation>
+	<operation> <!-- line 904 -->
+		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
+		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
+	</operation>
+	<operation> <!-- line 917 -->
+		<search position="replace"><![CDATA[if ($context['folder'] != 'sent' && !empty($context['labels'][(int) $context['current_label_id']]['unread_messages']))]]></search>
+		<add><![CDATA[if (!$context['sup_folder'] && !empty($context['labels'][(int) $context['current_label_id']]['unread_messages']))]]></add>
+	</operation>
+			
+	<!-- messagePostError function -->
+	<operation> <!-- line 1905 -->
+		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? '' : ']]></search>
+		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '' : ']]></add>
+	</operation>
+	<operation> <!-- line 1908 -->
+		<search position="replace"><![CDATA[WHERE pm.id_pm = {int:replied_to}' . ($context['folder'] == 'sent' ? ']]></search>
+		<add><![CDATA[WHERE pm.id_pm = {int:replied_to}' . ($context['sup_folder'] ? ']]></add>
+	</operation>
+	
+	<!-- MessageKillAllQuery function -->
+	<operation> <!-- line 2503 -->
+		<search position="replace"><![CDATA[$txt['delete_all'] = str_replace('PMBOX', $context['folder'] != 'sent' ? $txt['inbox'] : $txt['sent_items'], $txt['delete_all']);]]></search>
+		<add><![CDATA[$pmbox = $context['folder'] == 'sent' ? $txt['sent_items'] : $context['folder'] == 'unread' ? $txt['unread_items'] : $txt['inbox'];
+	$txt['delete_all'] = str_replace('PMBOX', $pmbox, $txt['delete_all']);]]></add>
+	</operation>
+	
+	<!-- MessageKillAll function -->
+	<operation> <!-- line 2519 -->
+		<search position="replace"><![CDATA[deleteMessages(null, $_REQUEST['f'] != 'sent' ? 'inbox' : 'sent');]]></search>
+		<add><![CDATA[deleteMessages(null, $_REQUEST['f'] == 'sent' || $_REQUEST['f'] == 'unread' ? 'sent' : 'inbox');]]></add>
+	</operation>
+</file>
+</modification>
