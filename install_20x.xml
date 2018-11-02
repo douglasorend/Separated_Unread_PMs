@@ -3,7 +3,7 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:SeperateUnreadPMs</id>
 <name>Seperate Unread PMs</name>
-<version>1.4</version>
+<version>1.5</version>
 
 <file name="$sourcedir/PersonalMessage.php">
 	<!-- MessageMain function -->

@@ -3,7 +3,7 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 <id>Dougiefresh:SeperateUnreadPMs</id>
 <name>Seperate Unread PMs</name>
-<version>1.4</version>
+<version>1.5</version>
 
 <file name="$sourcedir/PersonalMessage.php">
 	<!-- MessageMain function -->
@@ -77,9 +77,9 @@
 	</operation>
 	<operation> <!-- line 632 -->
 		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
+				LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
 		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
+				LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
 	</operation>
 	<operation> <!-- line 639 -->
 		<search position="replace"><![CDATA[WHERE ' . ($context['folder'] == 'sent' ? 'pm.id_member_from = {int:current_member}]]></search>
@@ -90,32 +90,7 @@
 		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
 		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
 	</operation>
-	<operation> <!-- line 663 -->
-		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
-		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
-	</operation>
 	<operation> <!-- line 671 -->
-		<search position="replace"><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['folder'] != 'sent' ? 'id_pm' : '{raw:sort}')]]></search>
-		<add><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['sup_folder'] ? 'id_pm' : '{raw:sort}')]]></add>
-	</operation>
-	<operation> <!-- line 678 -->
-		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
-		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
-	</operation>
-	<operation> <!-- line 686 -->
-		<search position="replace"><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['folder'] == 'sent' ? ($context['sort_by'] == 'name' ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : '') : ']]></search>
-		<add><![CDATA[FROM {db_prefix}personal_messages AS pm' . ($context['sup_folder'] ? '
-					LEFT JOIN {db_prefix}pm_recipients AS pmr ON (pmr.id_pm = pm.id_pm)' : ']]></add>
-	</operation>
-	<operation> <!-- line 693 -->
-		<search position="replace"><![CDATA[WHERE ' . ($context['folder'] == 'sent' ? 'pm.id_member_from = {int:current_member}]]></search>
-		<add><![CDATA[WHERE ' . ($context['sup_folder'] ? 'pm.id_member_from = {int:current_member}
-					AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0]]></add>
-	</operation>
-	<operation> <!-- line 698 -->
 		<search position="replace"><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['folder'] != 'sent' ? 'id_pm' : '{raw:sort}')]]></search>
 		<add><![CDATA[ORDER BY ' . ($_GET['sort'] == 'pm.id_pm' && $context['sup_folder'] ? 'id_pm' : '{raw:sort}')]]></add>
 	</operation>
@@ -166,10 +141,6 @@
 		<search position="replace"><![CDATA[WHERE pm.id_pm IN ({array_int:display_pms})' . ($context['folder'] == 'sent' ? ']]></search>
 		<add><![CDATA[WHERE pm.id_pm IN ({array_int:display_pms})' . ($context['sup_folder'] ? '
 				AND pmr.is_read ' . ($context['folder'] == 'sent' ? '>' : '=') . ' 0]]></add>
-	</operation>
-	<operation> <!-- line 904 -->
-		<search position="replace"><![CDATA['id_member' => $context['folder'] == 'sent' ? 'pmr.id_member' : 'pm.id_member_from',]]></search>
-		<add><![CDATA['id_member' => $context['sup_folder'] ? 'pmr.id_member' : 'pm.id_member_from',]]></add>
 	</operation>
 	<operation> <!-- line 917 -->
 		<search position="replace"><![CDATA[if ($context['folder'] != 'sent' && !empty($context['labels'][(int) $context['current_label_id']]['unread_messages']))]]></search>

@@ -1,3 +1,7 @@
+v1.5 - July 7th, 2017
+o Added support for SMF 2.1 Beta 3.
+o Removed support for SMF 2.1 Beta 2.
+
 v1.4 - July 5th, 2017
 o Fixed database query error in [b]Sources\PersonalMessages.php[/b].  Thanks, [url=https://www.simplemachines.org/community/index.php?action=profile;u=112942]GL700Wing[/url]!!!
 

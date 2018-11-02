@@ -1,5 +1,5 @@
 [hr]
-[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.4[/b][/size][/color]
+[center][color=red][size=16pt][b]SEPARATE UNREAD PMS v1.5[/b][/size][/color]
 [url=http://www.simplemachines.org/community/index.php?action=profile;u=253913][b]By Dougiefresh[/b][/url] -> [url=http://custom.simplemachines.org/mods/index.php?mod=4141]Link to Mod[/url]
 [/center]
 [hr]
@@ -18,7 +18,7 @@ o [url=http://www.simplemachines.org/community/index.php?topic=128571]PM outbox/
 o [url=http://www.simplemachines.org/community/index.php?topic=426840]Private Message Email Notification[/url]
 
 [color=blue][b][size=12pt][u]Compatibility Notes[/u][/size][/b][/color]
-This mod was tested on SMF 2.0.13, but should work on SMF 2.0 and up.  SMF 1.x is not and will not be supported.
+This mod was tested on SMF 2.0.13 and SMF 2.1 Beta 3, but should work on SMF 2.0 and up.  SMF 2.1 Beta 2 and SMF 1.x will not be supported.
 
 [color=blue][b][size=12pt][u]Changelog[/u][/size][/b][/color]
 The changelog has been removed and can be seen at [url=http://www.xptsp.com/board/index.php?topic=1593.msg2230#msg2230]XPtsp.com[/url].
